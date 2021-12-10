@@ -22,6 +22,11 @@ const reducer = (state, action) => {
         ...state,
         allGuests: action.payload,
       };
+    case Action.AddConfirm:
+      return {
+        ...state,
+        allGuests: action.payload,
+      };
     case Action.StartedWaiting:
       return {
         ...state,
