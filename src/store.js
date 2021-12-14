@@ -22,11 +22,16 @@ const reducer = (state, action) => {
         ...state,
         allGuests: action.payload,
       };
-    case Action.AddConfirm:
+    case Action.LoadedGuest:
       return {
         ...state,
-        allGuests: action.payload,
+        guest: action.payload,
       };
+      case Action.RemoveMemory:
+        return {
+          ...state,
+          allGuests: state.allGuests.filter(guest => guest.id !== action.payload),
+        };
     case Action.StartedWaiting:
       return {
         ...state,

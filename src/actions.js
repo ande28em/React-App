@@ -3,24 +3,47 @@ export const Action = Object.freeze({
   LoadedAlbums: "LoadedAlbums",
   StartedWaiting:"StartedWaiting",
   StoppedWaiting: "StoppedWaiting",
-  AddConfirm: "AddConfirm",
+  LoadedGuest: "LoadedGuest",
+  RemovedGuest: "RemovedGuest",
 });
+
+export function removedGuest(id) {
+  return {type: Action.RemovedGuest, payload: id};
+}
 
 export function loadedGuestList(allGuests) {
   return {type: Action.LoadedGuestList, payload: allGuests};
+}
+
+export function loadedGuest(guest) {
+  return {type: Action.LoadedGuest, payload: guest};
 }
 
 export function loadedAlbums(albums) {
   return {type: Action.LoadedAlbums, payload: albums};
 }
 
+export function updateGuest(id, firstname, lastname) {
+  return dispatch => {
+    const options = {
+      method: 'PATCH',
+    };
+    fetch(`https://project2.emanderson.me:8443/guests/${id}/${firstname}/${lastname}`, options)
+    .then(assertResponse)
+    .then(response => response.json())
+    .then(data => {
+      if (data.ok){
+        
+      }
+    });
+  };
+}
+
 export function addGuest(firstname, lastname){
-  console.log("names ", firstname, lastname);
   const guest = {
     firstname,
     lastname,
   };
-  console.log("guest ", guest);
   return dispatch => {
     const options = {
       method: 'POST',
@@ -29,21 +52,32 @@ export function addGuest(firstname, lastname){
       },
       body: JSON.stringify(guest),
     };
-    console.log("options ", options);
     fetch(`https://project2.emanderson.me:8443/guests`, options)
     .then(assertResponse)
     .then(response => response.json())
     .then(data => {
       if (data.ok){
-        console.log("true ", data.ok);
-        console.log("result ", data.result);
+        fetchGuests();
+        document.location.reload(true);
       }
     });
   };
 }
 
-export function addConfirm(guest){
-  return {type: Action.AddConfirm, payload: guest};
+export function removeGuest(id) {
+  return dispatch => {
+    const options = {
+      method: 'DELETE',
+    };
+    fetch(`https://project2.emanderson.me:8443/guests/${id}`, options)
+    .then(assertResponse)
+    .then(response => response.json())
+    .then(data => {
+      if (data.ok) {
+        dispatch(removedGuest(id));
+      }
+    });
+  };
 }
 
 export function showProgress() {
@@ -63,14 +97,12 @@ function assertResponse(response) {
 }
 
 export function fetchGuests() {
-  console.log('fetchGuests')
   return (dispatch) => {
     dispatch(showProgress());
     fetch(`https://project2.emanderson.me:8443/guests`)
       .then(assertResponse)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         dispatch(loadedGuestList(data.result));
             dispatch(hideProgress());
       })
@@ -80,16 +112,14 @@ export function fetchGuests() {
   };
 }
 
-export function fetchOneGuest(guest) {
-  console.log('fetchOneGuest')
+export function fetchGuest(id) {
   return (dispatch) => {
     dispatch(showProgress());
-    fetch(`https://project2.emanderson.me:8443/guests/${guest}`)
+    fetch(`https://project2.emanderson.me:8443/guests/${id}`)
       .then(assertResponse)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        dispatch(loadedGuestList(data.result));
+        dispatch(loadedGuest(data.result));
             dispatch(hideProgress());
       })
       .catch(rejected => {
