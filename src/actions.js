@@ -25,6 +25,7 @@ export function loadedAlbums(albums) {
 
 export function updateGuest(id, firstname, lastname) {
   return dispatch => {
+    dispatch(showProgress());
     const options = {
       method: 'PATCH',
     };
@@ -33,7 +34,7 @@ export function updateGuest(id, firstname, lastname) {
     .then(response => response.json())
     .then(data => {
       if (data.ok){
-        
+        dispatch(hideProgress());
       }
     });
   };
@@ -45,6 +46,7 @@ export function addGuest(firstname, lastname){
     lastname,
   };
   return dispatch => {
+    dispatch(showProgress());
     const options = {
       method: 'POST',
       headers: {
@@ -66,6 +68,7 @@ export function addGuest(firstname, lastname){
 
 export function removeGuest(id) {
   return dispatch => {
+    dispatch(showProgress());
     const options = {
       method: 'DELETE',
     };
@@ -73,8 +76,9 @@ export function removeGuest(id) {
     .then(assertResponse)
     .then(response => response.json())
     .then(data => {
-      if (data.ok) {
-        dispatch(removedGuest(id));
+      if (data.ok){
+        fetchGuests();
+        document.location.reload(true);
       }
     });
   };
