@@ -15,7 +15,10 @@ export function GuestList() {
   const[lastN, setLast] = useState('');
 
   return (
-    
+    <html>
+      <head>
+      <meta name="viewport" content="width=device-width,initial-scale=1"></meta>
+      </head>
     <body style={{textAlign: "center",}}>
       <h2>Guest List</h2>
       {allGuests && allGuests.length > 0 &&
@@ -50,5 +53,6 @@ export function GuestList() {
         </span>}
       
     </body>
+    </html>
   );
 }

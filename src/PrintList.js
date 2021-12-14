@@ -11,7 +11,10 @@ export function Print() {
   }, [dispatch]);
 
   return (
-    
+    <html>
+      <head>
+      <meta name="viewport" content="width=device-width,initial-scale=1" />
+      </head>
     <body style={{textAlign: "center",}}>
       <h2>Guest List</h2>
       {allGuests && allGuests.length > 0 &&
@@ -37,5 +40,6 @@ export function Print() {
         </span>}
       
     </body>
+    </html>
   );
 }

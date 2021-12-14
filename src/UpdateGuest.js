@@ -17,6 +17,10 @@ export function UpdateGuest() {
   const[lastN, setLast] = useState('');
 
   return (
+    <html>
+      <head>
+      <meta name="viewport" content="width=device-width,initial-scale=1" />
+      </head>
     
     <body style={{textAlign: "center",}}>
       <h2>Update Guest</h2>
@@ -43,5 +47,6 @@ export function UpdateGuest() {
         </span>}
       
     </body>
+    </html>
   );
 }

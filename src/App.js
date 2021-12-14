@@ -8,6 +8,10 @@ import { useSelector } from "react-redux";
 function App() {
   const isWaiting = useSelector((state) => state.isWaiting);
   return (
+    <html>
+      <head>
+      <meta name="viewport" content="width=device-width,initial-scale=1"></meta>
+      </head>
     <div className="App">
       {isWaiting && <div className="spinner" />}
       <Routes>
@@ -16,6 +20,7 @@ function App() {
         <Route path="/print" element={<Print />} />
       </Routes>
     </div>
+    </html>
   );
 }
 
